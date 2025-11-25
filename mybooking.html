@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Trips</title>
+
+    <link rel="stylesheet" href="mybooking.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  </head>
+  <body>
+
+    <div class="app-container">
+      <div class="bookings-banner">
+        <h1>My Trips ✈️</h1>
+        <p>Your upcoming adventures</p>
+        <a href="home.html" class="back-link">Home</a>
+      </div>
+
+      <div id="bookingsList" class="bookings-list">
+        <p id="loadingMessage">Loading...</p>
+      </div>
+    </div>
+    <a href="chat.html" class="chat-btn" target="_blank">🤖 AI Help</a>
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="supabase-client.js"></script>
+
+    <script>
+      const bookingsList = document.getElementById("bookingsList");
+      const Toast = Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 3000, timerProgressBar: true });
+
+      function showEmptyState() {
+        bookingsList.innerHTML = `
+          <div class="empty-state">
+            <span class="empty-icon">🏝️</span>
+            <h2>Time for a Vacation?</h2>
+            <p style="color:#64748b;">You haven't booked any trips yet.</p>
+            <a href="home.html#services" class="explore-btn">Explore Destinations</a>
+          </div>
+        `;
+      }
+
+      document.addEventListener("DOMContentLoaded", async () => {
+        const { data: { session } } = await supabase.auth.getSession();
+        if (!session) { window.location.href = "index.html"; return; }
+
+        const { data, error } = await supabase
+          .from("bookings")
+          .select(`id, service (title, description, image_url, price)`)
+          .eq("user_id", session.user.id);
+
+        bookingsList.innerHTML = "";
+
+        if (!data || data.length === 0) {
+          showEmptyState();
+          return;
+        }
+
+        data.forEach((booking, index) => {
+          const s = booking.service; 
+          if (s) { 
+            const card = document.createElement("div");
+            card.className = "luxury-card"; // The new luxury class
+            card.style.animationDelay = `${index * 0.1}s`; 
+            
+            // --- NEW LUXURY HTML ---
+            card.innerHTML = `
+              <div class="card-image-wrapper">
+                <img src="${s.image_url}" alt="${s.title}" />
+                <div class="status-pill">Confirmed</div>
+              </div>
+              
+              <div class="card-content">
+                <div class="booking-id">Booking #${booking.id}</div>
+                <h3 class="card-title">${s.title}</h3>
+                <p class="card-desc">${s.description}</p>
+                
+                <div class="card-footer">
+                  <div class="price-block">
+                    <span class="price-label">Total Paid</span>
+                    <span class="price-value">${s.price || 'N/A'}</span>
+                  </div>
+                  <button class="cancel-text-btn" onclick="deleteBooking('${booking.id}', this)">Cancel</button>
+                </div>
+              </div>
+            `;
+            bookingsList.appendChild(card);
+          }
+        });
+      });
+
+      async function deleteBooking(id, btn) {
+        const result = await Swal.fire({
+          title: "Cancel Trip?",
+          text: "Are you sure you want to cancel?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#ef4444",
+          cancelButtonColor: "#cbd5e0",
+          confirmButtonText: "Yes, Cancel"
+        });
+
+        if (result.isConfirmed) {
+          const { error } = await supabase.from("bookings").delete().eq("id", id);
+          if (!error) {
+            const card = btn.closest('.luxury-card');
+            card.classList.add("card-fading-out");
+            setTimeout(() => {
+              card.remove();
+              if (bookingsList.children.length === 0) showEmptyState();
+            }, 400);
+            Toast.fire({ icon: 'success', title: 'Trip Canceled' });
+          } else {
+            Toast.fire({ icon: 'error', title: 'Error canceling' });
+          }
+        }
+      }
+    </script>
+  </body>
+</html>

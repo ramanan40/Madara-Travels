@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Madara Travels</title>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="icon"
+      href="https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=60&q=80"
+    />
+        <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <header class="header">
+      <div class="header-left">
+        <img src="950488.png" alt="Madara Logo" class="logo" />
+        <div class="header-title">
+          MADARA <span class="travels-gradient">TRAVELS</span>
+        </div>
+      </div>
+
+      <nav>
+        <ul class="nav-links" id="navLinks">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#testimonials">Testimonials</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><a href="register.html">Register</a></li>
+          <li><a href="planner.html" style="color:#ffd700;">AI Planner ✨</a></li>
+        </ul>
+      </nav>
+
+      <div class="menu-toggle" id="hamburger" aria-label="menu">
+        <span></span><span></span><span></span>
+      </div>
+      <button id="theme-toggle" style="background:none; border:none; font-size:1.5rem; cursor:pointer; margin-right:15px;">☀️</button>
+
+      <div class="profile-menu">
+        <img
+          src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+          id="navAvatar"
+          class="profile-avatar"
+          alt="avatar"
+        />
+        <div class="profile-dropdown" id="profileDropdown">
+          <div class="user-info">
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+              id="dropdownAvatar"
+              style="width: 46px; height: 46px; border-radius: 50%; object-fit: cover"
+              alt=""
+            />
+            <div>
+              <h4 id="dropdownName" style="margin: 0">Traveler</h4>
+              <p
+                id="dropdownEmail"
+                style="margin: 0; font-size: 13px; color: #666"
+              >
+                user@example.com
+              </p>
+            </div>
+          </div>
+          <hr style="margin: 10px 0; border: none; border-top: 1px solid #eee" />
+          <a href="mybooking.html" class="dropdown-item">My Bookings</a>
+          <a href="profile.html" class="dropdown-item">Account Settings</a>
+          <a href="#" id="logoutBtn" class="dropdown-item logout">Logout</a>
+        </div>
+      </div>
+    </header>
+  <section id="home" class="section-home" data-aos="fade-up">
+  
+  <video id="myVideo" autoplay muted loop playsinline class="hero-video">
+    <source src="https://videos.pexels.com/video-files/4133023/4133023-uhd_2560_1440_30fps.mp4" type="video/mp4">
+  </video>
+
+  <button id="soundBtn" class="sound-btn">🔇</button>
+
+  <div class="hero-overlay"></div>
+
+      <div class="home-flex">
+        <div class="text1">
+          <h2 class="hero-title">Welcome to Madara Travels</h2>
+          <p class="hero-description">
+            Your journey begins here. Explore the world with us!
+          </p>
+          <button class="explore-button" onclick="location.href='#services'">
+            Explore Now
+          </button>
+        </div>
+      </div>
+    </section>
+   <section id="about" class="section-about" data-aos="fade-up">
+      <div class="about-header">
+        <h2 class="title1">About <span>Madara</span></h2>
+        <p class="section-subtitle">
+          We don't just plan trips; we curate memories. Discover the story behind your next great adventure.
+        </p>
+      </div>
+
+      <div class="about-content-wrapper">
+        <div class="about-text-column">
+          <h3>Your Journey, Our Passion</h3>
+          <p>
+            Madara Travels is your trusted partner for unforgettable journeys.
+            With years of experience, our team is dedicated to providing safe,
+            exciting, and memorable travel experiences.
+          </p>
+          <p>
+            Whether you seek adventure, relaxation, or cultural exploration, we have the perfect
+            package for you. Join us and let's make your travel dreams come true!
+          </p>
+          <div class="partner-strip">
+            <p>Trusted by travelers from:</p>
+            <div class="partner-logos">
+              <span class="logo-text">Google</span>
+              <span class="logo-text">Airbnb</span>
+              <span class="logo-text">TripAdvisor</span>
+              <span class="logo-text">Expedia</span>
+            </div>
+          </div>
+
+          <div class="stats-grid">
+            <div class="stat-item">
+              <span class="stat-number">10+</span>
+              <span class="stat-label">Years Exp.</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number">5k+</span>
+              <span class="stat-label">Happy Travelers</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number">150+</span>
+              <span class="stat-label">Destinations</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="about-cards-column">
+          
+          <div class="about-card mission-card">
+            <div class="card-icon">🚀</div>
+            <h4>Our Mission</h4>
+            <p>To inspire and enable people to explore the world safely and sustainably.</p>
+          </div>
+
+          <div class="about-card values-card">
+            <div class="card-icon">💎</div>
+            <h4>Our Values</h4>
+            <ul>
+              <li>Safety First</li>
+              <li>Transparency</li>
+              <li>Sustainability</li>
+            </ul>
+          </div>
+
+          <div class="about-card team-card">
+            <div class="card-icon">🤝</div>
+            <h4>Expert Team</h4>
+            <p>Guided by passionate experts dedicated to making your journey seamless.</p>
+          </div>
+
+          <div class="about-card why-card">
+            <div class="card-icon">🏆</div>
+            <h4>Why Us?</h4>
+            <p>Rated 5 Stars for our exclusive deals and 24/7 support.</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+    
+    <section id="services" class="section-services" data-aos="fade-up">
+      <h2 class="title1">Our Services</h2>
+    <div class="search-container" data-aos="fade-up" data-aos-delay="100">
+        <span class="search-icon">🔍</span>
+        
+        <input type="text" id="searchInput" placeholder="Where do you want to go? (e.g. Dubai, Beach)...">
+        
+        <button id="voiceBtn" class="voice-btn" title="Search by Voice">
+          <i class="fa-solid fa-microphone"></i>
+        </button>
+      </div>
+      
+      <div class="filter-buttons">
+        <button class="filter-btn active" data-category="all">All</button>
+        <button class="filter-btn" data-category="Beach">Beach</button>
+        <button class="filter-btn" data-category="Mountain">Mountain</button>
+        <button class="filter-btn" data-category="City">City</button>
+        <button class="filter-btn" data-category="Adventure">Adventure</button>
+        <button class="filter-btn" data-category="Desert">Desert</button>
+      </div>
+
+      <div class="serviceitems"></div>
+    </section>
+
+ <section id="testimonials" class="section-testimonials" data-aos="fade-in">
+      <h2 class="title1">Traveler <span>Diaries</span></h2>
+      
+      <div class="testimonials-container">
+        
+        <div class="testimonial-card">
+          <div class="testi-banner" style="background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=500');"></div>
+          
+          <div class="testi-content">
+            <img src="https://randomuser.me/api/portraits/women/44.jpg" class="testi-avatar" />
+            <div class="testi-name">Priya S.</div>
+            <div class="testi-location">Visited Maldives</div>
+            <div class="testi-stars">⭐⭐⭐⭐⭐</div>
+            <p>"Madara Travels made my vacation unforgettable! The beach tour was amazing and the guides were super friendly."</p>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="testi-banner" style="background-image: url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=500');"></div>
+          
+          <div class="testi-content">
+            <img src="https://randomuser.me/api/portraits/men/32.jpg" class="testi-avatar" />
+            <div class="testi-name">Arjun R.</div>
+            <div class="testi-location">Visited Himalayas</div>
+            <div class="testi-stars">⭐⭐⭐⭐⭐</div>
+            <p>"The mountain hiking experience was breathtaking. Highly recommend Madara Travels for adventure lovers!"</p>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="testi-banner" style="background-image: url('https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?q=80&w=500');"></div>
+          
+          <div class="testi-content">
+            <img src="https://randomuser.me/api/portraits/women/68.jpg" class="testi-avatar" />
+            <div class="testi-name">Meera K.</div>
+            <div class="testi-location">Visited Switzerland</div>
+            <div class="testi-stars">⭐⭐⭐⭐⭐</div>
+            <p>"Excellent service and great value. Will book again for my next trip! Everything was handled perfectly."</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="faq" class="section-faq" data-aos="fade-left">
+      <div class="faq-wrapper">
+        
+        <div class="faq-image-side">
+          <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1000&auto=format&fit=crop" alt="Support">
+          <div class="faq-overlay-text">
+            <h3>Have Questions?</h3>
+            <p>We're here to help you 24/7.</p>
+          </div>
+        </div>
+
+        <div class="faq-content-side">
+          <h2 class="title1" style="margin-bottom: 30px;">Common <span>Queries</span></h2>
+          
+          <div class="faq-container">
+            <div class="faq-item">
+              <h3 class="faq-question">How do I book a tour?</h3>
+              <p class="faq-answer">You can book a tour by contacting us through the form below or clicking 'Book Now' on any service card.</p>
+            </div>
+            <div class="faq-item">
+              <h3 class="faq-question">Are your guides certified?</h3>
+              <p class="faq-answer">Yes, all our guides are professionally trained and certified for your safety and enjoyment.</p>
+            </div>
+            <div class="faq-item">
+              <h3 class="faq-question">Can I customize my travel package?</h3>
+              <p class="faq-answer">Absolutely! We offer custom packages to suit your preferences and budget.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+    <div id="preloader">
+    <div class="loader-content">
+      <div class="plane-icon">✈️</div>
+      <h2>Madara Travels</h2>
+      <p>Curating your journey...</p>
+      <div class="loading-bar">
+        <div class="bar-fill"></div>
+      </div>
+    </div>
+  </div>
+
+    <section id="contact">
+      <div class="contact-container" data-aos="zoom-in" data-aos-delay="200">
+        <h2 class="contact-title">📩 Contact Us</h2>
+        <p class="contact-subtitle">
+          Have a question or request? We’d love to hear from you.
+        </p>
+
+        <form id="contactForm" class="contact-box" data-aos="zoom-in">
+          <label>Your Name:</label>
+          <input
+            type="text"
+            name="from_name"
+            placeholder="Enter your name"
+            required
+          />
+
+          <label>Your Email:</label>
+          <input
+            type="email"
+            name="from_email"
+            placeholder="Enter your email"
+            required
+          />
+
+          <label>Subject:</label>
+          <input
+            type="text"
+            name="subject"
+            placeholder="Enter subject"
+            required
+          />
+
+          <button type="submit">Send Message</button>
+        </form>
+      </div>
+    </section>
+
+    <a href="chat.html" class="chat-btn"> <i class="fa-solid fa-robot"></i></a>
+    <a href="#" id="backToTop" class="back-to-top" aria-label="Back to Top">
+  ↑
+</a>
+
+   <footer class="footer">
+      
+      <div class="footer-cta">
+        <div class="cta-text">
+          <h2>Ready for your next adventure?</h2>
+          <p>Let's make your dream trip a reality today.</p>
+        </div>
+        <a href="#services" class="cta-btn">Book a Trip Now</a>
+      </div>
+
+      <div class="footer-content">
+        
+        <div class="footer-brand">
+          <div class="brand-logo">
+            <img src="950488.png" alt="Logo">
+            <span>MADARA</span>
+          </div>
+          <p>Curating unforgettable journeys and creating memories that last a lifetime. Your trusted travel partner.</p>
+          
+          <div class="footer-social">
+            <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="#"><i class="fa-brands fa-twitter"></i></a>
+            <a href="#"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+          </div>
+        </div>
+
+        <div class="footer-links-group">
+          <h4>Explore</h4>
+          <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#services">Destinations</a></li>
+            <li><a href="#testimonials">Reviews</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-links-group">
+          <h4>Support</h4>
+          <ul>
+            <li><a href="#faq">FAQ</a></li>
+            <li><a href="#contact">Contact Us</a></li>
+            <li><a href="profile.html">My Account</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+          </ul>
+        </div>
+
+      <div class="footer-newsletter">
+          <h4>Stay Updated</h4>
+          <p>Get the latest travel deals sent to your inbox.</p>
+          
+          <form class="newsletter-form" id="newsletterForm">
+            <input type="email" id="newsletterEmail" placeholder="Enter your email" required>
+            <button type="submit">Subscribe</button>
+          </form>
+        </div>
+
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2025 Madara Travels. Developed by Ramanan😍 & Hema ❤️.</p>
+      </div>
+    </footer>
+
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@2/dist/email.min.js"></script>
+
+    <script src="supabase-client.js"></script>
+
+ <script>
+      // --- NEW: Reusable Toast setup ---
+      const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer)
+          toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+      });
+    
+      // Initialize AOS (Animate on Scroll)
+      AOS.init({
+        duration: 1000, // Faster animation
+        once: true, // Only run animation once
+        offset: 50, 
+      });
+
+      // Initialize EmailJS & set up contact form
+      (function () {
+        emailjs.init("u2EPz4Qef1VWFzGBZ"); 
+      })();
+
+// --- CONTACT FORM SCRIPT (home.html) ---
+      document
+        .getElementById("contactForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          // 🟢 USES OLD TEMPLATE: template_4lhvk3b
+          emailjs.sendForm("service_u0c0118", "template_4lhvk3b", this).then(
+            function () {
+              Toast.fire({ icon: 'success', title: 'Message Sent!' });
+              document.getElementById("contactForm").reset();
+            },
+            function (error) {
+              Toast.fire({ icon: 'error', title: 'Failed to send.' });
+            }
+          );
+        });
+    </script>
+
+    <script src="index.js"></script>
+  </body>
+</html>

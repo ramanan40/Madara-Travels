@@ -1,0 +1,268 @@
+/* =========================================
+   LUXURY RESORT STYLE
+   ========================================= */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: "Poppins", sans-serif;
+  /* Soft, Premium Gradient Background */
+  background: linear-gradient(135deg, #f6f9fc 0%, #e9eff5 100%);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: 60px 20px;
+  color: #1e293b;
+}
+
+.app-container {
+  width: 100%;
+  max-width: 900px;
+}
+
+/* --- Header --- */
+.bookings-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+  background: white;
+  padding: 25px 40px;
+  border-radius: 24px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+}
+
+.bookings-banner div h1 {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin-bottom: 5px;
+  letter-spacing: -0.5px;
+}
+
+.bookings-banner div p {
+  color: #64748b;
+  font-size: 0.95rem;
+}
+
+.back-link {
+  background: #f1f5f9;
+  color: #64748b;
+  text-decoration: none;
+  padding: 12px 24px;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: 0.3s;
+}
+.back-link:hover { background: #0f172a; color: white; }
+
+/* --- THE LUXURY CARD --- */
+.bookings-list {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.luxury-card {
+  display: flex;
+  background: white;
+  border-radius: 24px;
+  padding: 15px; /* Gap around the image */
+  box-shadow: 0 15px 35px -5px rgba(0,0,0,0.06);
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(0,0,0,0.02);
+  
+  /* Animation */
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp 0.6s ease forwards;
+}
+
+.luxury-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 25px 50px -10px rgba(0,0,0,0.1);
+}
+
+/* Left: Image Area */
+.card-image-wrapper {
+  width: 280px; /* Fixed width for side image */
+  height: 200px;
+  border-radius: 20px;
+  overflow: hidden;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.card-image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.luxury-card:hover .card-image-wrapper img {
+  transform: scale(1.08);
+}
+
+/* Badge on Image */
+.status-pill {
+  position: absolute;
+  top: 15px; left: 15px;
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(4px);
+  padding: 6px 14px;
+  border-radius: 30px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #059669; /* Success Green */
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  display: flex; align-items: center; gap: 5px;
+}
+.status-pill::before {
+  content: ""; width: 6px; height: 6px;
+  background: #059669; border-radius: 50%;
+}
+
+/* Right: Content Area */
+.card-content {
+  flex: 1;
+  padding: 15px 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.booking-id {
+  font-size: 0.8rem;
+  color: #94a3b8;
+  font-weight: 600;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.card-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 10px;
+}
+
+.card-desc {
+  color: #64748b;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Footer inside card */
+.card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 15px;
+  border-top: 1px solid #f1f5f9;
+}
+
+.price-block {
+  display: flex;
+  flex-direction: column;
+}
+
+.price-label { font-size: 0.8rem; color: #94a3b8; }
+.price-value { font-size: 1.3rem; font-weight: 800; color: #0f172a; }
+
+/* Cancel Button (Clean Text) */
+.cancel-text-btn {
+  color: #ef4444;
+  background: none;
+  border: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: 0.2s;
+  opacity: 0.7;
+}
+
+.cancel-text-btn:hover {
+  background: #fef2f2;
+  opacity: 1;
+}
+
+/* --- Empty State --- */
+.empty-state {
+  text-align: center;
+  padding: 60px;
+  background: white;
+  border-radius: 30px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+.empty-icon { font-size: 4rem; display: block; margin-bottom: 20px; animation: bounce 2s infinite; }
+.explore-btn {
+  background: #0f172a; color: white; padding: 14px 30px;
+  border-radius: 50px; text-decoration: none; font-weight: 600;
+  display: inline-block; margin-top: 20px; transition: 0.3s;
+}
+.explore-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+
+/* Animations */
+@keyframes fadeUp { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
+@keyframes bounce { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-10px); } }
+@keyframes fadeOut { to { opacity:0; transform:scale(0.95); } }
+.card-fading-out { animation: fadeOut 0.4s forwards; }
+/* =========================================
+   FLOATING CHAT BUTTON
+   ========================================= */
+.chat-btn {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: #f97316; /* Matches your Orange Accent */
+  color: white;
+  padding: 15px 30px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1.1rem;
+  box-shadow: 0 10px 30px rgba(249, 115, 22, 0.4);
+  transition: transform 0.3s ease;
+  z-index: 9999; /* Sit on top of everything */
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 2px solid rgba(255,255,255,0.2);
+}
+
+.chat-btn:hover {
+  transform: translateY(-5px) scale(1.05);
+  background: #ea580c; /* Darker Orange */
+  box-shadow: 0 15px 40px rgba(249, 115, 22, 0.6);
+}
+
+/* Mobile Adjustment */
+@media (max-width: 600px) {
+  .chat-btn {
+    bottom: 20px;
+    right: 20px;
+    padding: 12px 20px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .luxury-card { flex-direction: column; }
+  .card-image-wrapper { width: 100%; height: 180px; }
+  .bookings-banner { flex-direction: column; text-align: center; gap: 15px; }
+}

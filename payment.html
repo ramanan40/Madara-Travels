@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Secure Checkout - Madara Travels</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <link rel="stylesheet" href="style.css" />
+    
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+      /* =========================================
+         PAYMENT PAGE STYLES
+         ========================================= */
+      body {
+        background-color: #f4f7fe;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+        padding: 40px 20px;
+      }
+
+      .checkout-container {
+        display: flex;
+        width: 100%;
+        max-width: 1100px;
+        background: white;
+        border-radius: 30px;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+        overflow: hidden;
+        min-height: 650px;
+      }
+
+      /* --- LEFT SIDE --- */
+      .summary-side {
+        flex: 1.2;
+        background: #022c22;
+        color: white;
+        padding: 40px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .back-btn {
+        color: rgba(255,255,255,0.7);
+        text-decoration: none;
+        font-weight: 600;
+        display: flex; align-items: center; gap: 8px;
+        cursor: pointer; margin-bottom: 30px; transition: 0.3s;
+      }
+      .back-btn:hover { color: white; transform: translateX(-5px); }
+
+      .summary-image-box {
+        width: 100%; height: 220px; border-radius: 20px; overflow: hidden;
+        margin-bottom: 25px; background: #111827; position: relative;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      }
+      .summary-image-box img { width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: 0.5s; }
+      .summary-image-box img.loaded { opacity: 1; }
+
+      .order-title { font-size: 0.8rem; opacity: 0.5; text-transform: uppercase; margin-bottom: 5px; }
+      #serviceTitle { font-size: 2rem; font-weight: 700; line-height: 1.2; margin-bottom: 10px; }
+      #serviceDesc { opacity: 0.7; font-size: 0.9rem; line-height: 1.6; margin-bottom: auto; }
+
+      .total-price-box {
+        margin-top: 30px; background: rgba(255,255,255,0.1); padding: 20px;
+        border-radius: 20px; border: 1px solid rgba(255,255,255,0.1);
+        display: flex; justify-content: space-between; align-items: center;
+      }
+      #servicePrice { font-size: 1.8rem; font-weight: 700; color: #facc15; }
+
+      /* --- RIGHT SIDE --- */
+      .payment-side {
+        flex: 1.5; padding: 50px; background: #fff;
+        display: flex; flex-direction: column; justify-content: center;
+      }
+      .form-header h2 { font-size: 1.8rem; color: #1b2559; margin-bottom: 5px; }
+      .form-header p { color: #a3aed0; font-size: 0.9rem; margin-bottom: 30px; }
+      
+      .card-icons { display: flex; gap: 15px; margin-bottom: 25px; font-size: 1.8rem; color: #94a3b8; }
+      
+      .input-group { margin-bottom: 20px; }
+      .input-row { display: flex; gap: 20px; }
+      label { display: block; font-size: 0.8rem; font-weight: 700; color: #1b2559; margin-bottom: 8px; text-transform: uppercase; }
+      
+      input {
+        width: 100%; padding: 16px; border-radius: 12px; border: 2px solid #e2e8f0;
+        background: #f8fafc; font-size: 1rem; color: #333; transition: 0.3s;
+      }
+      input:focus { border-color: #022c22; outline: none; background: white; }
+      
+      .pay-btn {
+        width: 100%; padding: 18px; background: #022c22; color: white;
+        border: none; border-radius: 15px; font-size: 1.1rem; font-weight: 700;
+        cursor: pointer; margin-top: 10px; transition: 0.3s;
+        box-shadow: 0 10px 25px rgba(2, 44, 34, 0.2);
+        display: flex; justify-content: center; align-items: center; gap: 10px;
+      }
+      .pay-btn:hover { background: #f97316; transform: translateY(-2px); }
+
+      @media (max-width: 900px) {
+        .checkout-container { flex-direction: column; height: auto; }
+        .summary-side, .payment-side { padding: 30px; }
+        .summary-image-box { height: 180px; }
+      }
+    </style>
+  </head>
+  <body>
+
+    <div class="checkout-container">
+      <div class="summary-side">
+        <div onclick="history.back()" class="back-btn">← Cancel</div>
+        <div class="summary-image-box">
+          <img id="serviceImg" src="" alt="Trip">
+        </div>
+        <div>
+          <div class="order-title">Order Summary</div>
+          <h1 id="serviceTitle">Loading...</h1>
+          <p id="serviceDesc">Please wait...</p>
+        </div>
+        <div class="total-price-box">
+          <span class="price-label">Total</span>
+          <div id="servicePrice">$0.00</div>
+        </div>
+      </div>
+
+      <div class="payment-side">
+        <div class="form-header">
+          <h2>Payment Details</h2>
+          <p>Enter details to complete booking.</p>
+        </div>
+        <div class="card-icons">
+          <i class="fa-brands fa-cc-visa"></i>
+          <i class="fa-brands fa-cc-mastercard"></i>
+          <i class="fa-brands fa-cc-amex"></i>
+        </div>
+
+        <form id="paymentForm">
+          <div class="input-group">
+            <label>Cardholder Name</label>
+            <input type="text" id="cardName" placeholder="John Doe" required>
+          </div>
+          <div class="input-group">
+            <label>Card Number</label>
+            <input type="text" id="cardNumber" placeholder="0000 0000 0000 0000" maxlength="19" required>
+          </div>
+          <div class="input-row">
+            <div class="input-group">
+              <label>Expiry</label>
+              <input type="text" id="expiryDate" placeholder="MM/YY" maxlength="5" required>
+            </div>
+            <div class="input-group">
+              <label>CVV</label>
+              <input type="password" id="cvv" placeholder="123" maxlength="3" required>
+            </div>
+          </div>
+          <button type="submit" class="pay-btn"><i class="fa-solid fa-lock"></i> Pay Securely</button>
+        </form>
+      </div>
+    </div>
+
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script src="supabase-client.js"></script>
+
+    <script>
+    // 1. Initialize EmailJS (New V3 Syntax)
+(function () {
+  emailjs.init("u2EPz4Qef1VWFzGBZ");
+})();
+      const params = new URLSearchParams(window.location.search);
+      const serviceId = params.get('id');
+      
+      const serviceTitle = document.getElementById('serviceTitle');
+      const serviceDesc = document.getElementById('serviceDesc');
+      const servicePrice = document.getElementById('servicePrice');
+      const serviceImg = document.getElementById('serviceImg');
+      const payBtn = document.querySelector('.pay-btn');
+
+      // 2. Load Trip Data
+      document.addEventListener("DOMContentLoaded", async () => {
+        if (!serviceId) {
+          window.location.href = "home.html";
+          return;
+        }
+
+        const { data: service, error } = await supabase
+          .from('service')
+          .select('*')
+          .eq('id', serviceId)
+          .single();
+
+        if (error || !service) {
+          serviceTitle.textContent = "Error";
+          serviceDesc.textContent = "Trip not found.";
+        } else {
+          serviceTitle.textContent = service.title;
+          serviceDesc.textContent = service.description;
+          servicePrice.textContent = service.price || "Free";
+          
+          // Smart Image Loader
+          const imgUrl = service.image_url || 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80&w=1000';
+          serviceImg.src = imgUrl;
+          serviceImg.onload = () => serviceImg.classList.add('loaded');
+          serviceImg.onerror = () => {
+             serviceImg.src = 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?q=80&w=1000';
+             serviceImg.classList.add('loaded');
+          };
+        }
+      });
+
+      // Input Formatters
+      document.getElementById('cardNumber').addEventListener('input', function (e) {
+        e.target.value = e.target.value.replace(/\W/gi, '').replace(/(.{4})/g, '$1 ').trim();
+      });
+      document.getElementById('expiryDate').addEventListener('input', function (e) {
+        e.target.value = e.target.value.replace(/^(\d\d)(\d)$/g, '$1/$2').replace(/[^\d\/]/g, '');
+      });
+
+      // 3. HANDLE PAYMENT & EMAIL
+      document.getElementById("paymentForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        
+        const cardName = document.getElementById('cardName').value;
+        const originalText = payBtn.innerHTML;
+        payBtn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> Processing...`;
+        payBtn.disabled = true;
+
+        setTimeout(async () => {
+          // Get Current User
+          const { data: { session } } = await supabase.auth.getSession();
+          if(!session) {
+             alert("Session expired. Please login again.");
+             return;
+          }
+          
+          const userEmail = session.user.email; 
+
+          // A. Save Booking
+          const { error } = await supabase.from('bookings').insert([
+            { user_id: session.user.id, service_id: serviceId }
+          ]);
+
+          if (error) {
+            payBtn.innerHTML = originalText;
+            payBtn.disabled = false;
+            if (error.code === '23505') {
+               Swal.fire("Already Booked", "You have already booked this trip.", "info");
+            } else {
+               Swal.fire("Error", "Payment failed. Try again.", "error");
+            }
+          } else {
+            
+            // B. SEND EMAIL
+            const emailParams = {
+              to_email: userEmail,
+              to_name: cardName,
+              trip_name: serviceTitle.textContent,
+              price: servicePrice.textContent,
+              message: "Your booking ID is #" + Math.floor(Math.random()*10000)
+            };
+
+            console.log("Attempting to send email to:", userEmail);
+
+            emailjs.send("service_u0c0118", "template_dq8wujp", emailParams)
+              .then(() => {
+                  console.log("✅ Email sent successfully!");
+                  // C. Show Success ONLY after email tries to send
+                  Swal.fire({
+                    title: "Payment Successful! 🎉",
+                    text: `Confirmation sent to ${userEmail}.`,
+                    icon: "success",
+                    confirmButtonColor: "#022c22"
+                  }).then(() => {
+                    window.location.href = "mybooking.html";
+                  });
+              })
+              .catch((err) => {
+                  console.error("❌ Email Failed:", err);
+                  // Still show success for booking, but warn about email
+                  Swal.fire({
+                    title: "Booked (Email Failed)",
+                    text: "Your trip is booked, but we couldn't send the email receipt.",
+                    icon: "warning",
+                    confirmButtonColor: "#022c22"
+                  }).then(() => {
+                    window.location.href = "mybooking.html";
+                  });
+              });
+          }
+        }, 2000);
+      });
+    </script>
+  </body>
+</html>

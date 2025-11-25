@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Profile - Madara Travels</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="profile.css">
+  </head>
+  <body>
+
+    <div class="profile-image-side">
+      <div class="image-content">
+        <a href="home.html" class="back-link">← Back to Home</a>
+      </div>
+      <div class="image-content quote-box">
+        <h1>Your Profile,<br>Your Journey.</h1>
+        <p>Keep your details up to date for a smoother travel experience.</p>
+      </div>
+    </div>
+
+    <div class="profile-form-side">
+      <div class="form-header">
+        <h2>Edit Profile</h2>
+        <p>Manage your personal information</p>
+      </div>
+
+      <form id="profileForm">
+        
+        <div class="avatar-section">
+          <div class="avatar-wrapper" onclick="document.getElementById('fileInput').click()">
+            <img id="previewAvatar" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Avatar">
+            <div class="edit-badge">✎</div>
+          </div>
+        </div>
+        <input type="file" id="fileInput" accept="image/*">
+
+        <div class="input-group">
+          <label>Username</label>
+          <input type="text" id="usernameInput" placeholder="Enter username" required>
+        </div>
+
+        <div class="input-group">
+          <label>Email Address</label>
+          <input type="email" id="emailInput" placeholder="Enter email" required>
+        </div>
+
+        <button type="submit" class="save-btn">Save Changes</button>
+      </form>
+    </div>
+
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="supabase-client.js"></script>
+    <script>
+      const Toast = Swal.mixin({
+        toast: true, position: 'top-end', showConfirmButton: false, timer: 3000, timerProgressBar: true
+      });
+
+      const previewAvatar = document.getElementById("previewAvatar");
+      const fileInput = document.getElementById("fileInput");
+      const usernameInput = document.getElementById("usernameInput");
+      const emailInput = document.getElementById("emailInput");
+      const profileForm = document.getElementById("profileForm");
+      let newAvatarBase64 = null;
+
+      document.addEventListener("DOMContentLoaded", async () => {
+        const { data: { session } } = await supabase.auth.getSession();
+        if (!session) { window.location.href = "index.html"; return; }
+
+        const user = session.user;
+        emailInput.value = user.email;
+        usernameInput.value = user.user_metadata.username || "";
+        if (user.user_metadata.avatar_url) previewAvatar.src = user.user_metadata.avatar_url;
+      });
+
+      fileInput.addEventListener("change", (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function (event) {
+            previewAvatar.src = event.target.result;
+            newAvatarBase64 = event.target.result;
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+
+      profileForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const btn = document.querySelector('.save-btn');
+        const oldText = btn.textContent;
+        btn.textContent = "Saving...";
+        btn.disabled = true;
+
+        const updates = { username: usernameInput.value.trim() };
+        if (newAvatarBase64) updates.avatar_url = newAvatarBase64;
+        
+        const newEmail = emailInput.value.trim();
+        const { data: { user } } = await supabase.auth.getUser();
+        
+        let emailUpdatePromise = Promise.resolve();
+        if (newEmail !== user.email) {
+           emailUpdatePromise = supabase.auth.updateUser({ email: newEmail });
+           Toast.fire({ icon: 'info', title: 'Check your email to confirm change!' });
+        }
+
+        const { error } = await supabase.auth.updateUser({ data: updates });
+        await emailUpdatePromise;
+
+        btn.textContent = oldText;
+        btn.disabled = false;
+
+        if (error) {
+          Toast.fire({ icon: 'error', title: 'Update failed.' });
+        } else {
+          Toast.fire({ icon: 'success', title: 'Profile updated successfully!' });
+          setTimeout(() => window.location.href = "home.html", 1500);
+        }
+      });
+    </script>
+  </body>
+</html>

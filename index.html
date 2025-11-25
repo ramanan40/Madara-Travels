@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Madara Travels</title>
+    <link rel="stylesheet" href="index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+
+    <div class="auth-container">
+        <div class="auth-image-side" style="background-image: url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=1000&auto=format&fit=crop');">
+            <div class="auth-text">
+                <h1>Welcome<br>Back!</h1>
+                <p>Your next adventure is just one click away.</p>
+            </div>
+        </div>
+
+        <div class="auth-form-side">
+            <div class="form-header">
+                <h2>Login</h2>
+                <p>Enter your details to continue</p>
+            </div>
+
+            <form id="loginForm">
+                <div class="input-group">
+                    <label>Email Address</label>
+                    <input type="email" id="login-email" placeholder="mail@example.com" required>
+                </div>
+
+                <div class="input-group">
+                    <label>Password</label>
+                    <input type="password" id="login-password" placeholder="Enter password" required>
+                </div>
+
+                <button type="submit" class="auth-btn">Sign In</button>
+                
+                <div class="auth-footer">
+                    Don't have an account? <a href="register.html">Create Account</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="success-popup" id="loginSuccessPopup">
+        <div style="font-size: 3rem; margin-bottom: 10px;">✈️</div>
+        <h2 style="color:#1b2559; margin-bottom:10px;">Ready for takeoff!</h2>
+        <p style="color:#a3aed0;">Logging you in...</p>
+    </div>
+    <a href="chat.html" class="chat-btn" target="_blank">🤖 AI Help</a>
+
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="supabase-client.js"></script>
+    <script>
+      const loginForm = document.getElementById("loginForm");
+      const popup = document.getElementById("loginSuccessPopup");
+
+      loginForm.addEventListener("submit", async function (e) {
+        e.preventDefault();
+        const btn = document.querySelector('.auth-btn');
+        const originalText = btn.textContent;
+        btn.textContent = "Checking...";
+        btn.disabled = true;
+
+        const email = document.getElementById("login-email").value.trim();
+        const password = document.getElementById("login-password").value.trim();
+
+        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+
+        if (error) {
+          btn.textContent = originalText;
+          btn.disabled = false;
+          Swal.fire({ icon: 'error', title: 'Login Failed', text: 'Invalid email or password', confirmButtonColor: '#4318ff' });
+        } else {
+          popup.classList.add("show");
+          document.body.classList.add("popup-active");
+          setTimeout(() => window.location.href = "home.html", 2000);
+        }
+      });
+    </script>
+</body>
+</html>

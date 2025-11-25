@@ -1,0 +1,232 @@
+/* =========================================
+   FULL SCREEN SPLIT AUTH STYLES (RESPONSIVE FIXED)
+   ========================================= */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: #ffffff;
+  /* Desktop Default: Side-by-Side */
+  display: flex;
+  width: 100%;
+  min-height: 100vh; /* Allow growing if needed */
+  overflow-x: hidden; /* Prevent horizontal scroll */
+}
+
+/* Wrapper (Hidden logic, keeps structure) */
+.auth-container {
+  display: contents; /* Lets children (image/form) ignore this wrapper */
+}
+
+/* --- Left Side: The Image --- */
+.auth-image-side {
+  flex: 1.5; /* Takes up 60% width on Desktop */
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 80px;
+  color: white;
+  min-height: 100vh; /* Full height on desktop */
+}
+
+/* Gradient Overlay */
+.auth-image-side::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: linear-gradient(to bottom, rgba(67, 24, 255, 0.1), rgba(27, 37, 89, 0.8));
+  z-index: 1;
+}
+
+.auth-text {
+  position: relative;
+  z-index: 2;
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.auth-text h1 { 
+  font-size: 4rem; 
+  font-weight: 800; 
+  line-height: 1.1; 
+  margin-bottom: 20px; 
+  text-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.auth-text p { 
+  font-size: 1.2rem; 
+  opacity: 0.9; 
+  font-weight: 400; 
+  max-width: 80%;
+}
+
+/* --- Right Side: The Form --- */
+.auth-form-side {
+  flex: 1; /* Takes up 40% width on Desktop */
+  padding: 40px 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: #ffffff;
+  position: relative;
+  min-height: 100vh; /* Full height on desktop */
+}
+
+.form-header { text-align: left; margin-bottom: 50px; }
+.form-header h2 { font-size: 2.5rem; color: #1b2559; font-weight: 800; margin-bottom: 10px; }
+.form-header p { color: #a3aed0; font-size: 1.1rem; }
+
+/* Inputs */
+.input-group { margin-bottom: 25px; text-align: left; }
+
+.input-group label {
+  display: block;
+  font-size: 0.9rem;
+  color: #1b2559;
+  font-weight: 700;
+  margin-bottom: 10px;
+  margin-left: 5px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 20px 25px;
+  border-radius: 16px;
+  border: 2px solid #f4f7fe;
+  background: #f4f7fe;
+  color: #1b2559;
+  font-size: 1rem;
+  font-family: "Poppins", sans-serif;
+  transition: all 0.3s ease;
+}
+
+.input-group input:focus {
+  border-color: #4318ff;
+  background: #fff;
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(67, 24, 255, 0.1);
+}
+
+/* Button */
+.auth-btn {
+  width: 100%;
+  padding: 20px;
+  border-radius: 16px;
+  border: none;
+  background: #4318ff;
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.3s;
+  box-shadow: 0 10px 25px rgba(67, 24, 255, 0.3);
+  margin-bottom: 30px;
+  margin-top: 10px;
+}
+
+.auth-btn:hover {
+  transform: translateY(-3px);
+  background: #2b00ff;
+  box-shadow: 0 15px 40px rgba(67, 24, 255, 0.5);
+}
+
+/* Links */
+.auth-footer { text-align: center; font-size: 1rem; color: #718096; }
+.auth-footer a { color: #4318ff; font-weight: 700; text-decoration: none; }
+.auth-footer a:hover { text-decoration: underline; }
+
+/* Avatar Upload (Register) */
+.avatar-wrapper { display: flex; justify-content: center; margin-bottom: 40px; }
+.avatar-box { width: 120px; height: 120px; position: relative; cursor: pointer; }
+.avatar-box img {
+  width: 100%; height: 100%;
+  border-radius: 50%; object-fit: cover;
+  border: 4px solid #f4f7fe;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+.edit-icon {
+  position: absolute; bottom: 0; right: 0;
+  background: #4318ff; color: white;
+  width: 40px; height: 40px;
+  border-radius: 50%; display: flex;
+  align-items: center; justify-content: center;
+  border: 3px solid white; font-size: 1.2rem;
+}
+
+/* --- Popup --- */
+.success-popup {
+  display: none; position: fixed;
+  top: 50%; left: 50%; transform: translate(-50%, -50%);
+  background: white; padding: 50px;
+  border-radius: 30px; box-shadow: 0 30px 80px rgba(0,0,0,0.3);
+  text-align: center; z-index: 100;
+  width: 350px;
+}
+.success-popup.show { display: block; animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+body.popup-active::before {
+  content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(10, 20, 40, 0.8); backdrop-filter: blur(5px); z-index: 99;
+}
+
+/* Floating Chat Button Logic */
+.chat-btn {
+  position: fixed; bottom: 30px; right: 30px;
+  background: #4318ff; color: white; padding: 14px 24px;
+  border-radius: 50px; text-decoration: none; font-weight: 700;
+  box-shadow: 0 10px 30px rgba(67, 24, 255, 0.4);
+  transition: 0.3s; z-index: 999;
+}
+.chat-btn:hover { transform: scale(1.1); background: #2b00ff; }
+
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes popIn { from { opacity: 0; transform: translate(-50%, -40%); } to { opacity: 1; transform: translate(-50%, -50%); } }
+
+
+/* =========================================
+   MOBILE RESPONSIVE FIX (The Important Part)
+   ========================================= */
+@media (max-width: 900px) {
+  body {
+    flex-direction: column; /* Stack Image on Top, Form on Bottom */
+    height: auto; /* Allow scrolling */
+    overflow-y: auto; /* Enable vertical scroll */
+  }
+
+  .auth-image-side {
+    flex: none;
+    height: 300px; /* Banner height */
+    width: 100%;
+    padding: 40px 20px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: auto;
+  }
+
+  .auth-text h1 { font-size: 2.5rem; margin-bottom: 10px; }
+  .auth-text p { font-size: 1rem; max-width: 100%; }
+
+.auth-form-side {
+    flex: none;
+    width: 100%;
+    min-height: auto;
+    
+    /* FIX IS HERE: Changed bottom padding from 60px to 120px */
+    /* This creates space for the Chat Button so it doesn't cover text */
+    padding: 40px 25px 120px; 
+    
+    background: #fff;
+    border-radius: 30px 30px 0 0; 
+    margin-top: -30px; 
+    z-index: 10;
+    box-shadow: 0 -10px 40px rgba(0,0,0,0.1);
+  }
+  
+  .form-header h2 { font-size: 2rem; }
+  .input-group input { padding: 16px 20px; }
+}

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Madara Travels</title>
+    <link rel="stylesheet" href="index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+
+    <div class="auth-container">
+        <div class="auth-image-side" style="background-image: url('https://images.unsplash.com/photo-1501555088652-021faa106b9b?q=80&w=1000&auto=format&fit=crop');">
+            <div class="auth-text">
+                <h1>Join the<br>Journey.</h1>
+                <p>Create an account and start exploring the world with Madara Travels.</p>
+            </div>
+        </div>
+
+        <div class="auth-form-side">
+            <div class="form-header">
+                <h2>Create Account</h2>
+                <p>It's free and easy</p>
+            </div>
+
+            <form id="registerForm">
+                
+                <div class="avatar-wrapper">
+                    <div class="avatar-box" onclick="document.getElementById('reg-avatar').click()">
+                        <img id="previewAvatar" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
+                        <div class="edit-icon">📷</div>
+                    </div>
+                </div>
+                <input type="file" id="reg-avatar" accept="image/*" style="display: none;">
+
+                <div class="input-group">
+                    <label>Username</label>
+                    <input type="text" id="reg-username" placeholder="Enter username" required>
+                </div>
+
+                <div class="input-group">
+                    <label>Email</label>
+                    <input type="email" id="reg-email" placeholder="mail@example.com" required>
+                </div>
+
+                <div class="input-group">
+                    <label>Password</label>
+                    <input type="password" id="reg-password" placeholder="Create password (min 6 chars)" required minlength="6">
+                </div>
+
+                <button type="submit" class="auth-btn">Sign Up</button>
+                
+                <div class="auth-footer">
+                    Already have an account? <a href="index.html">Login here</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="success-popup" id="successPopup">
+        <div style="font-size: 3rem; margin-bottom: 10px;">🎉</div>
+        <h2 style="color:#1b2559; margin-bottom:10px;">Account Created!</h2>
+        <p style="color:#a3aed0;">Welcome aboard!</p>
+    </div>
+    <a href="chat.html" class="chat-btn" target="_blank">🤖 AI Help</a>
+
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="supabase-client.js"></script>
+    <script>
+      const registerForm = document.getElementById("registerForm");
+      const successPopup = document.getElementById("successPopup");
+      const avatarInput = document.getElementById("reg-avatar");
+      const previewAvatar = document.getElementById("previewAvatar");
+
+      // Preview Image
+      avatarInput.addEventListener("change", (e) => {
+        if(e.target.files[0]) {
+            const reader = new FileReader();
+            reader.onload = (event) => previewAvatar.src = event.target.result;
+            reader.readAsDataURL(e.target.files[0]);
+        }
+      });
+
+      registerForm.addEventListener("submit", async function (e) {
+        e.preventDefault();
+        const btn = document.querySelector('.auth-btn');
+        btn.textContent = "Creating...";
+        btn.disabled = true;
+
+        const username = document.getElementById("reg-username").value.trim();
+        const email = document.getElementById("reg-email").value.trim();
+        const password = document.getElementById("reg-password").value.trim();
+        
+        // Handle Image
+        let avatarBase64 = "";
+        if (avatarInput.files[0]) {
+            const reader = new FileReader();
+            reader.readAsDataURL(avatarInput.files[0]);
+            await new Promise(resolve => reader.onload = resolve);
+            avatarBase64 = reader.result;
+        }
+
+        // Supabase Sign Up
+        const { data, error } = await supabase.auth.signUp({
+            email, 
+            password,
+            options: { data: { username, avatar_url: avatarBase64 } }
+        });
+
+        if (error) {
+            btn.textContent = "Sign Up";
+            btn.disabled = false;
+            Swal.fire({ icon: 'error', title: 'Error', text: error.message, confirmButtonColor: '#4318ff' });
+        } else {
+            successPopup.classList.add("show");
+            document.body.classList.add("popup-active");
+            setTimeout(() => window.location.href = "home.html", 2000);
+        }
+      });
+    </script>
+</body>
+</html>

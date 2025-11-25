@@ -1,0 +1,265 @@
+/* =========================================
+   FULL SCREEN CHAT STYLE (WhatsApp Web Style)
+   ========================================= */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: #f0f2f5;
+  width: 100vw;
+  
+  /* THE FIX: Use dynamic height */
+  height: 100vh; /* Fallback for old browsers */
+  height: 100dvh; /* Matches actual visible screen on mobile */
+  
+  overflow: hidden;
+  position: fixed; /* Locks the screen preventing scroll bounce */
+}
+
+/* --- Main Container (Full Screen) --- */
+.chat-wrapper {
+  width: 100%;
+  height: 100%; /* Full Height */
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* --- Header --- */
+.chat-header {
+  background: linear-gradient(135deg, #4318ff 0%, #868cff 100%); /* Royal Blue */
+  padding: 20px 40px; /* More padding for desktop */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+  box-shadow: 0 4px 20px rgba(67, 24, 255, 0.15);
+  z-index: 10;
+}
+
+.header-info { display: flex; align-items: center; gap: 15px; }
+
+.bot-avatar {
+  width: 55px;
+  height: 55px;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(5px);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  border: 2px solid rgba(255,255,255,0.4);
+}
+
+.chat-header h1 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+.status-dot {
+  display: inline-block;
+  width: 10px; height: 10px;
+  background: #00ff88;
+  border-radius: 50%;
+  margin-right: 8px;
+  box-shadow: 0 0 10px #00ff88;
+}
+
+.close-btn {
+  color: white;
+  opacity: 0.9;
+  font-size: 1.5rem; /* Bigger close button */
+  transition: 0.3s;
+  background: rgba(255,255,255,0.1);
+  width: 45px; height: 45px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  text-decoration: none;
+}
+.close-btn:hover { background: rgba(255,255,255,0.3); transform: rotate(90deg); }
+
+/* --- Chat Area --- */
+.chat-box {
+  flex: 1;
+  padding: 40px;
+  overflow-y: auto;
+  background-color: #eef2f6;
+  /* Subtle Pattern */
+  background-image: radial-gradient(#cbd5e0 1px, transparent 1px);
+  background-size: 25px 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Scrollbar */
+.chat-box::-webkit-scrollbar { width: 8px; }
+.chat-box::-webkit-scrollbar-track { background: #f1f1f1; }
+.chat-box::-webkit-scrollbar-thumb { background: #ccc; border-radius: 10px; }
+.chat-box::-webkit-scrollbar-thumb:hover { background: #aaa; }
+
+/* --- Message Bubbles --- */
+.message {
+  display: flex;
+  flex-direction: column;
+  max-width: 70%; /* Wider on desktop */
+  animation: slideUp 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.message-content {
+  padding: 16px 24px; /* Bigger padding */
+  border-radius: 20px;
+  font-size: 1rem;
+  line-height: 1.6;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  position: relative;
+}
+
+/* Bot Message */
+.message.bot { align-self: flex-start; }
+.message.bot .message-content {
+  background: #ffffff;
+  color: #2d3748;
+  border-bottom-left-radius: 2px;
+}
+
+/* User Message */
+.message.user { align-self: flex-end; align-items: flex-end; }
+.message.user .message-content {
+  background: linear-gradient(135deg, #4318ff 0%, #6c5ce7 100%);
+  color: white;
+  border-bottom-right-radius: 2px;
+  box-shadow: 0 10px 25px rgba(67, 24, 255, 0.2);
+}
+
+.message-time {
+  font-size: 0.8rem;
+  color: #a0aec0;
+  margin-top: 8px;
+  font-weight: 500;
+}
+
+/* --- Input Area --- */
+.chat-input-area {
+  padding: 25px 40px;
+  background: #fff;
+  border-top: 1px solid #e0e5f2;
+  position: relative;
+}
+
+#chatForm {
+  display: flex;
+  gap: 15px;
+  background: #f4f7fe;
+  padding: 10px 10px 10px 30px;
+  border-radius: 60px; /* Pill Shape */
+  border: 2px solid transparent;
+  transition: 0.3s;
+  max-width: 1200px; /* Limit width on huge screens */
+  margin: 0 auto; /* Center it */
+}
+
+#chatForm:focus-within {
+  background: #fff;
+  border-color: #4318ff;
+  box-shadow: 0 0 0 5px rgba(67, 24, 255, 0.1);
+}
+
+#chatInput {
+  flex: 1;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 1.1rem;
+  color: #1b2559;
+  font-weight: 500;
+}
+
+#sendBtn {
+  background: linear-gradient(135deg, #4318ff 0%, #6c5ce7 100%);
+  color: white;
+  border: none;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  box-shadow: 0 5px 15px rgba(67, 24, 255, 0.3);
+}
+
+#sendBtn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 25px rgba(67, 24, 255, 0.4);
+}
+
+/* Typing Animation */
+.typing-dots span {
+  display: inline-block; width: 8px; height: 8px;
+  background: #a3aed0; border-radius: 50%; margin: 0 3px;
+  animation: bounce 1.4s infinite both;
+}
+.typing-dots span:nth-child(1) { animation-delay: 0s; }
+.typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+.typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes bounce {
+  0%, 80%, 100% { transform: scale(0); opacity: 0.5; }
+  40% { transform: scale(1); opacity: 1; }
+}
+/* Extra padding for iPhones/Androids with gesture bars */
+@media (max-width: 600px) {
+  .chat-input-area {
+    padding-bottom: 30px !important; /* Pushes input up */
+  }
+}
+/* =========================================
+   MOBILE CHAT FIXES
+   ========================================= */
+@media (max-width: 600px) {
+  
+  /* Make the input area smaller and tighter */
+  .chat-input-area {
+    padding: 10px;
+  }
+
+  #chatForm {
+    padding: 5px 5px 5px 15px; /* Tighter padding */
+    gap: 8px; /* Less gap between input and button */
+  }
+
+  #chatInput {
+    font-size: 0.9rem; /* Prevent zooming on iPhone */
+  }
+
+  /* Fix Send Button Size */
+  #sendBtn {
+    width: 40px;
+    height: 40px;
+    min-width: 40px; /* Force size so it doesn't squash */
+    font-size: 1rem;
+  }
+
+  /* Adjust Bubbles for small screens */
+  .message {
+    max-width: 85%; /* Wider bubbles */
+  }
+  
+  .chat-header {
+    padding: 15px;
+  }
+}

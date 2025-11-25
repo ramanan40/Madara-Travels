@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Travel Architect | Madara Travels</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;800&family=Playfair+Display:ital,wght@1,600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+      /* =========================================
+         MNC-LEVEL CORPORATE DESIGN SYSTEM
+         ========================================= */
+      :root {
+        --bg-deep: #020617;  /* Slate 950 */
+        --glass-surface: rgba(255, 255, 255, 0.03);
+        --glass-border: rgba(255, 255, 255, 0.08);
+        --primary-blue: #3b82f6; /* Corporate Blue */
+        --primary-glow: rgba(59, 130, 246, 0.4);
+        --text-white: #ffffff;
+        --text-muted: #94a3b8;
+        --font-main: 'Inter', sans-serif;
+        --font-serif: 'Playfair Display', serif;
+      }
+
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+
+      body {
+        font-family: var(--font-main);
+        background-color: var(--bg-deep);
+        color: var(--text-white);
+        min-height: 100vh;
+        overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      /* --- 1. Cinematic Background (Earth/Space) --- */
+      .video-bg {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        object-fit: cover; z-index: -1;
+        /* Darken video for readability */
+        filter: brightness(0.3) saturate(1.2);
+        transform: scale(1.1); /* Prevents edge flicker */
+      }
+
+      .layout-container {
+        position: relative;
+        z-index: 2;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 40px 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      /* --- Navigation --- */
+      .nav-bar {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 80px;
+        animation: fadeInDown 1s ease;
+      }
+
+      .brand-logo {
+        font-size: 1.5rem;
+        font-weight: 800;
+        letter-spacing: -0.5px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .brand-dot { width: 8px; height: 8px; background: var(--primary-blue); border-radius: 50%; box-shadow: 0 0 15px var(--primary-blue); }
+
+      .nav-back {
+        color: var(--text-muted);
+        text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: 500;
+        transition: 0.3s;
+        display: flex; align-items: center; gap: 8px;
+        padding: 10px 20px;
+        border: 1px solid transparent;
+        border-radius: 50px;
+      }
+      .nav-back:hover {
+        color: white;
+        border-color: var(--glass-border);
+        background: var(--glass-surface);
+      }
+
+      /* --- Hero Text --- */
+      .hero-section {
+        text-align: center;
+        margin-bottom: 60px;
+        animation: fadeInUp 1s ease 0.2s backwards;
+      }
+
+      .hero-eyebrow {
+        font-size: 0.85rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        color: var(--primary-blue);
+        margin-bottom: 20px;
+        display: block;
+      }
+
+      .hero-title {
+        font-size: 4.5rem;
+        font-weight: 300; /* Thin & Elegant */
+        line-height: 1.1;
+        margin-bottom: 15px;
+        letter-spacing: -1px;
+      }
+      .hero-title span { font-family: var(--font-serif); font-style: italic; font-weight: 600; }
+
+      .hero-subtitle {
+        font-size: 1.1rem;
+        color: var(--text-muted);
+        max-width: 500px;
+        margin: 0 auto;
+        line-height: 1.6;
+      }
+
+      /* --- The Interface (Form) --- */
+      .interface-panel {
+        width: 100%;
+        max-width: 900px;
+        background: rgba(10, 10, 20, 0.7); /* Deep dark glass */
+        backdrop-filter: blur(30px);
+        -webkit-backdrop-filter: blur(30px);
+        border: 1px solid var(--glass-border);
+        border-radius: 24px;
+        padding: 50px;
+        box-shadow: 0 40px 100px -20px rgba(0,0,0,0.8);
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+        animation: fadeInUp 1s ease 0.4s backwards;
+      }
+
+      .input-group { position: relative; }
+      .full { grid-column: span 2; }
+
+      .input-label {
+        display: block;
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: var(--text-muted);
+        margin-bottom: 12px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .input-field {
+        width: 100%;
+        background: transparent;
+        border: none;
+        border-bottom: 2px solid var(--glass-border);
+        padding: 15px 0;
+        color: white;
+        font-family: var(--font-main);
+        font-size: 1.2rem;
+        font-weight: 500;
+        transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      
+      .input-field::placeholder { color: rgba(255,255,255,0.2); font-weight: 300; }
+
+      .input-field:focus {
+        outline: none;
+        border-color: var(--primary-blue);
+        background: linear-gradient(to bottom, transparent 95%, rgba(59, 130, 246, 0.1) 100%);
+      }
+
+      select.input-field { cursor: pointer; }
+      select.input-field option { background: #0f172a; }
+
+      /* The "Architect" Button */
+      .architect-btn {
+        grid-column: span 2;
+        margin-top: 20px;
+        background: var(--text-white);
+        color: #000;
+        border: none;
+        padding: 22px;
+        border-radius: 12px; /* Slightly sharper corners */
+        font-size: 1rem;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        display: flex; justify-content: center; align-items: center; gap: 10px;
+        box-shadow: 0 0 20px rgba(255,255,255,0.1);
+      }
+      
+      .architect-btn:hover {
+        background: var(--primary-blue);
+        color: white;
+        box-shadow: 0 0 40px var(--primary-glow);
+        transform: translateY(-2px);
+      }
+
+      /* --- Loading State --- */
+      .loading-overlay {
+        position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(2, 6, 23, 0.8);
+        backdrop-filter: blur(10px);
+        border-radius: 24px;
+        z-index: 10;
+        display: flex; flex-direction: column;
+        justify-content: center; align-items: center;
+        opacity: 0; visibility: hidden; transition: 0.5s;
+      }
+      .loading-overlay.active { opacity: 1; visibility: visible; }
+
+      .loading-ring {
+        width: 60px; height: 60px;
+        border: 4px solid rgba(255,255,255,0.1);
+        border-top-color: var(--primary-blue);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+      .loading-text { margin-top: 20px; font-size: 0.9rem; color: var(--text-muted); letter-spacing: 1px; }
+
+      /* --- Results Section --- */
+      #resultSection { width: 100%; max-width: 900px; margin-top: 80px; display: none; }
+      
+      .result-header {
+        display: flex; justify-content: space-between; align-items: end;
+        border-bottom: 1px solid var(--glass-border);
+        padding-bottom: 20px; margin-bottom: 40px;
+      }
+      .result-title { font-size: 2rem; font-family: var(--font-serif); margin-bottom: 5px; }
+      .result-meta { font-size: 0.9rem; color: var(--text-muted); }
+
+      .itinerary-grid {
+        display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px;
+      }
+
+      /* Itinerary Card */
+      .day-card {
+        background: var(--glass-surface);
+        border: 1px solid var(--glass-border);
+        border-radius: 16px;
+        padding: 30px;
+        transition: 0.4s;
+        position: relative;
+        overflow: hidden;
+        opacity: 0; transform: translateY(20px);
+        animation: cardEntry 0.6s ease forwards;
+      }
+      
+      .day-card:hover {
+        background: rgba(255,255,255,0.05);
+        border-color: rgba(255,255,255,0.2);
+        transform: translateY(-5px);
+      }
+
+      .day-number {
+        font-size: 0.75rem; font-weight: 800; color: var(--primary-blue);
+        text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 15px;
+        display: block;
+      }
+      
+      .day-head { font-size: 1.4rem; font-weight: 600; margin-bottom: 10px; color: #fff; }
+      .day-body { font-size: 1rem; color: var(--text-muted); line-height: 1.6; }
+
+      .save-btn {
+        background: transparent; color: var(--text-white);
+        border: 1px solid var(--glass-border);
+        padding: 10px 25px; border-radius: 50px;
+        cursor: pointer; font-size: 0.9rem; transition: 0.3s;
+      }
+      .save-btn:hover { border-color: var(--primary-blue); color: var(--primary-blue); }
+
+      /* Animations */
+      @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+      @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+      @keyframes spin { to { transform: rotate(360deg); } }
+      @keyframes cardEntry { to { opacity: 1; transform: translateY(0); } }
+
+      @media (max-width: 768px) {
+        .hero-title { font-size: 3rem; }
+        .interface-panel { grid-template-columns: 1fr; padding: 30px; }
+        .full { grid-column: span 1; }
+        .result-header { flex-direction: column; align-items: flex-start; gap: 20px; }
+      }
+    </style>
+  </head>
+  <body>
+
+    <video class="video-bg" autoplay muted loop playsinline>
+      <source src="https://videos.pexels.com/video-files/854671/854671-hd_1920_1080_25fps.mp4" type="video/mp4">
+    </video>
+
+    <div class="layout-container">
+      
+      <div class="nav-bar">
+        <div class="brand-logo">
+          <div class="brand-dot"></div> MADARA AI
+        </div>
+        <a href="home.html" class="nav-back">
+          <i class="fa-solid fa-arrow-left"></i> Return Home
+        </a>
+      </div>
+
+      <div class="hero-section">
+        <span class="hero-eyebrow">Artificial Intelligence</span>
+        <h1 class="hero-title">Architect Your <br><span>Perfect Journey</span></h1>
+        <p class="hero-subtitle">Describe your dream destination, budget, and style. <br>Our AI will craft a bespoke itinerary in seconds.</p>
+      </div>
+
+      <form class="interface-panel" id="plannerForm">
+        
+        <div class="loading-overlay" id="loadingOverlay">
+          <div class="loading-ring"></div>
+          <div class="loading-text">Analyzing preferences...</div>
+        </div>
+
+        <div class="input-group full">
+          <label class="input-label">Destination</label>
+          <input type="text" id="dest" class="input-field" placeholder="e.g. Kyoto, Japan" required>
+        </div>
+
+        <div class="input-group">
+          <label class="input-label">Duration</label>
+          <input type="number" id="days" class="input-field" placeholder="e.g. 5" min="1" max="50" required>
+        </div>
+
+        <div class="input-group">
+          <label class="input-label">Budget Range</label>
+          <select id="budget" class="input-field">
+            <option value="Budget Friendly">Economy</option>
+            <option value="Standard" selected>Standard</option>
+            <option value="Luxury">Premium / Luxury</option>
+          </select>
+        </div>
+
+        <div class="input-group full">
+          <label class="input-label">Travel Vibe</label>
+          <input type="text" id="style" class="input-field" placeholder="e.g. Cyberpunk, Ancient History, Foodie..." required>
+        </div>
+
+        <button type="submit" class="architect-btn">
+          Generate Itinerary <i class="fa-solid fa-arrow-right-long"></i>
+        </button>
+      </form>
+
+      <div id="resultSection">
+        <div class="result-header">
+          <div>
+            <h2 class="result-title">Your Blueprint</h2>
+            <div class="result-meta">Curated by Madara AI • Based on your preferences</div>
+          </div>
+          <button class="save-btn" onclick="window.print()">Download PDF</button>
+        </div>
+        
+        <div class="itinerary-grid" id="itineraryList">
+          </div>
+      </div>
+
+    </div>
+
+    <script>
+      // 🔴 PASTE YOUR GROQ API KEY HERE
+      const API_KEY = "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"; 
+
+      const form = document.getElementById('plannerForm');
+      const loader = document.getElementById('loadingOverlay');
+      const resultSection = document.getElementById('resultSection');
+      const itineraryList = document.getElementById('itineraryList');
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        loader.classList.add('active');
+        
+        const dest = document.getElementById('dest').value;
+        const days = document.getElementById('days').value;
+        const budget = document.getElementById('budget').value;
+        const style = document.getElementById('style').value;
+
+        // Precision Prompt
+        const prompt = `
+          Act as a luxury travel concierge. Create a ${days}-day itinerary for ${dest}.
+          Budget: ${budget}. Style: ${style}.
+          Strictly output a JSON ARRAY of objects.
+          Format: [{"day": "Day 1", "title": "Short Title (Max 5 words)", "desc": "2 sentences describing the activity."}]
+          Do not output any markdown or extra text.
+        `;
+
+        try {
+          const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+            method: "POST",
+            headers: { 
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${API_KEY}`
+            },
+            body: JSON.stringify({
+              model: "llama-3.3-70b-versatile",
+              messages: [{ role: "user", content: prompt }],
+              temperature: 0.7
+            }),
+          });
+
+          const data = await response.json();
+          const raw = data.choices[0].message.content;
+          const json = JSON.parse(raw.substring(raw.indexOf('['), raw.lastIndexOf(']') + 1));
+
+          // Render Beautiful Cards
+          itineraryList.innerHTML = "";
+          json.forEach((item, i) => {
+            const delay = i * 150; // Cascade animation
+            const html = `
+              <div class="day-card" style="animation-delay: ${delay}ms">
+                <span class="day-number">${item.day}</span>
+                <div class="day-content">
+                  <div class="day-head">${item.title}</div>
+                  <div class="day-body">${item.desc}</div>
+                </div>
+              </div>
+            `;
+            itineraryList.innerHTML += html;
+          });
+
+          // Reveal Results
+          loader.classList.remove('active');
+          resultSection.style.display = 'block';
+          
+          setTimeout(() => {
+             resultSection.scrollIntoView({ behavior: 'smooth' });
+          }, 200);
+
+        } catch (err) {
+          console.error(err);
+          loader.classList.remove('active');
+          Swal.fire({
+            title: "System Overload",
+            text: "Our AI is busy designing other trips. Please try again.",
+            icon: "error",
+            background: "#020617",
+            color: "#fff"
+          });
+        }
+      });
+    </script>
+  </body>
+</html>
