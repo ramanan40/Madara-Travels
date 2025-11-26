@@ -96,8 +96,15 @@ html, body {
   background: var(--primary); color: var(--bg-body);
 }
 
-/* Mobile Menu */
-.menu-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+/* Mobile Menu Toggle (Hidden on Desktop) */
+.menu-toggle { 
+  display: none; 
+  flex-direction: column; 
+  gap: 5px; 
+  cursor: pointer; 
+  padding: 10px;
+  z-index: 1001;
+}
 .menu-toggle span { width: 28px; height: 3px; background: var(--text-main); border-radius: 5px; }
 
 /* Profile */
@@ -118,7 +125,7 @@ html, body {
 .logout { color: #ef4444; }
 
 /* ===================================================
-   HERO SECTION
+   HERO SECTION (Static Image)
    =================================================== */
 .section-home {
   height: 90vh;
@@ -272,7 +279,7 @@ section { padding: 80px 8%; }
 .faq-answer { color: var(--text-subtle); margin-top: 5px; }
 
 /* ===================================================
-   CONTACT SECTION
+   CONTACT SECTION (Fixed Colors)
    =================================================== */
 #contact {
   background: linear-gradient(to bottom, rgba(243, 244, 246, 0.9), rgba(243, 244, 246, 0.8)), 
@@ -302,17 +309,10 @@ body.dark-mode #contact {
   border: none; font-weight: 700; cursor: pointer; font-size: 1.1rem;
 }
 .contact-box button:hover { background: var(--accent); color: white; }
-.footer {
-  position: relative;
-  background: #022c22; /* Deep Forest Green (Theme Match) */
-  color: white;
-  padding-top: 140px; /* Space for floating card */
-  margin-top: 180px; /* Push footer down from content */
-  border-radius: 60px 60px 0 0;
-  padding-bottom: 0;
-}
 
-/* --- 1. Floating CTA Card (The "Ready" Box) --- */
+/* ===================================================
+   FOOTER & FLOATING ELEMENTS
+   =================================================== */
 .footer-cta {
   position: absolute;
   top: -80px; /* Floats half-out of the footer */
@@ -459,22 +459,6 @@ body.dark-mode #contact {
 }
 .newsletter-form button:hover { background: white; color: #f97316; }
 
-
-/* --- 3. Copyright Bar (Fixed Alignment) --- */
-.footer-bottom {
-  background: #011c16; /* Slightly darker green */
-  padding: 25px 5%;
-  text-align: center;
-  border-top: 1px solid rgba(255,255,255,0.05);
-}
-
-.footer-bottom p {
-  margin: 0;
-  color: #64748b;
-  font-size: 0.9rem;
-  font-weight: 500;
-}
-
 /* Chat Button */
 .chat-btn {
   position: fixed; bottom: 30px; right: 30px;
@@ -574,4 +558,93 @@ body.dark-mode #contact {
   }
   
   .newsletter-form button { width: 100%; }
+}
+/* =========================================
+   FINAL MOBILE RESPONSIVE FIXES (NAV + FOOTER)
+   ========================================= */
+@media (max-width: 900px) {
+  
+  /* --- 1. NAV & HAMBURGER FIXES (Restored) --- */
+  .menu-toggle { 
+    display: flex; /* Show Hamburger */
+    z-index: 1002; /* Ensure it's on top */
+  }
+  
+  .nav-links { 
+    display: none; /* Hide links by default */
+    position: absolute; 
+    top: 80px; 
+    right: 20px; 
+    background: var(--bg-card); 
+    flex-direction: column; 
+    width: 250px; 
+    padding: 20px; 
+    box-shadow: var(--shadow-card); 
+    border-radius: 20px; 
+    z-index: 1001; 
+    border: 1px solid var(--border-color);
+  }
+  
+  /* This class is added by JS when you click hamburger */
+  .nav-links.active { 
+    display: flex; 
+  }
+
+  .nav-links li {
+    margin: 5px 0;
+    width: 100%;
+  }
+
+  /* --- 2. STRUCTURE ALIGNMENT --- */
+  .about-content-wrapper, .home-flex { grid-template-columns: 1fr; text-align: center; }
+  .stats-grid { justify-content: center; }
+  .hero-title { font-size: 3rem; }
+  .section-home { padding: 0 5%; text-align: center; justify-content: center; }
+  .faq-wrapper { flex-direction: column; }
+  .faq-image-side { display: none; }
+
+  /* --- 3. FOOTER LAYOUT FIX --- */
+  .footer { 
+    margin-top: 100px; 
+    padding-top: 0; 
+    height: auto; 
+  }
+  
+  .footer-cta {
+    position: relative; top: auto; left: auto; transform: none;
+    margin: -50px auto 40px auto; width: 90%;
+    flex-direction: column; text-align: center; gap: 20px; padding: 30px;
+  }
+  
+  .footer-content { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 40px; 
+    text-align: center; 
+    padding: 0 20px 40px; 
+  }
+
+  .footer-brand, .footer-links-group, .footer-newsletter {
+    width: 100%; 
+  }
+  
+  .cta-btn { width: 100%; justify-content: center; display: flex; }
+  
+  .newsletter-form { 
+    flex-direction: column; 
+    gap: 10px; 
+    padding: 10px;
+    background: rgba(255,255,255,0.05);
+  }
+  .newsletter-form input { 
+    text-align: center; 
+    width: 100%;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+    padding-bottom: 10px;
+  }
+  .newsletter-form button { width: 100%; }
+  
+  /* --- 4. FLOATING ELEMENTS --- */
+  .chat-btn { bottom: 20px; right: 20px; padding: 12px 20px; font-size: 1rem; }
+  .back-to-top { bottom: 20px; }
 }
